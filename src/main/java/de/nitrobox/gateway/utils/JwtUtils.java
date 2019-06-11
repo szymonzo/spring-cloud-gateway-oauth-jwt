@@ -26,8 +26,8 @@ public class JwtUtils {
 
   public static Consumer<JwtAuthenticationToken> logTenantAndClientIdClaims() {
     return jwtAuthenticationToken -> {
-      String tenantId = extractTenantIdFromAuthentication(jwtAuthenticationToken);
-      String clientId = extractClientIdFromAuthentication(jwtAuthenticationToken);
+      var tenantId = extractTenantIdFromAuthentication(jwtAuthenticationToken);
+      var clientId = extractClientIdFromAuthentication(jwtAuthenticationToken);
       log.info("Request client id {} and tenant id {}", clientId, tenantId);
     };
   }
