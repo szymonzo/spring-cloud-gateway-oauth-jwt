@@ -14,7 +14,6 @@ public class TenantIdQueryParameterFilter extends AddRequestParameterGatewayFilt
 
   @Override
   public GatewayFilter apply(NameValueConfig config) {
-
     return (exchange, chain) -> ReactiveSecurityContextHolder.getContext()
         .map(securityContext -> (JwtAuthenticationToken) securityContext.getAuthentication())
         .doOnNext(JwtUtils.logTenantAndClientIdClaims())

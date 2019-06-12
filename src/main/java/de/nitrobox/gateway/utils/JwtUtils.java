@@ -1,7 +1,14 @@
 package de.nitrobox.gateway.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtIssuerValidator;
+import org.springframework.security.oauth2.jwt.JwtTimestampValidator;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 @Slf4j
@@ -31,4 +38,14 @@ public class JwtUtils {
       log.info("Request client id {} and tenant id {}", clientId, tenantId);
     };
   }
+
+  public static OAuth2TokenValidator<Jwt> createValidatorsWith(String issuer,
+      List<String> audiences) {
+    List<OAuth2TokenValidator<Jwt>> validators = new ArrayList<>();
+    validators.add(new JwtTimestampValidator());
+    validators.add(new JwtIssuerValidator(issuer));
+    validators.add(new JwtAudienceValidator(audiences));
+    return new DelegatingOAuth2TokenValidator<>(validators);
+  }
+
 }
